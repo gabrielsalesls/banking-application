@@ -1,34 +1,32 @@
 package io.gabrielsalesls.banking.users.controller;
 
-import io.gabrielsalesls.banking.users.model.User;
-import io.gabrielsalesls.banking.users.repository.UserRepository;
-import jakarta.transaction.Transactional;
+import io.gabrielsalesls.banking.users.dto.UserDTO;
+import io.gabrielsalesls.banking.users.service.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/users")
 public class UserController {
 
-    private final UserRepository userRepository;
+    //TODO: Edit User
+    //TODO: Soft Delete User
+    //TODO: Find by Email
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserService userService;
 
-    @GetMapping
-    @Transactional
-    public ResponseEntity<List<User>> findAll() {
-
-        return ResponseEntity.ok(userRepository.findAll());
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody User users) {
-        return new ResponseEntity<>(userRepository.save(users), HttpStatus.CREATED);
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public UserDTO save(@RequestBody UserDTO userDTO) {
+        return userService.save(userDTO);
     }
 
+    @GetMapping
+    public UserDTO findByCpf(@RequestParam String cpf) {
+        return userService.findByCPF(cpf);
+    }
 }
