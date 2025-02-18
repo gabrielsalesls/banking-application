@@ -3,9 +3,11 @@ package io.gabrielsalesls.banking.users.service;
 
 import io.gabrielsalesls.banking.users.dto.UserDTO;
 import io.gabrielsalesls.banking.users.dto.mapper.UserMapper;
+import io.gabrielsalesls.banking.users.exception.UserNotFoundException;
 import io.gabrielsalesls.banking.users.repository.UserRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +28,10 @@ public class UserService {
 
     public UserDTO save(@Valid @NotNull UserDTO userDto) {
         return userMapper.toDTO(userRepository.save(userMapper.toEntity(userDto)));
+    }
+
+    public void delete(@NotNull @Positive Long id) {
+        userRepository.delete(userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id)));
     }
 }

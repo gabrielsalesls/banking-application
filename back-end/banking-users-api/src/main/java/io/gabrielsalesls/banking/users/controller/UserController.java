@@ -2,6 +2,8 @@ package io.gabrielsalesls.banking.users.controller;
 
 import io.gabrielsalesls.banking.users.dto.UserDTO;
 import io.gabrielsalesls.banking.users.service.UserService;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,5 +30,11 @@ public class UserController {
     @GetMapping
     public UserDTO findByCpf(@RequestParam String cpf) {
         return userService.findByCPF(cpf);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") @NotNull @Positive Long id) {
+        userService.delete(id);
     }
 }

@@ -22,7 +22,7 @@ public class User {
     @NotNull
     @NotBlank
     @Length(min = 5, max = 255)
-    @Column(length = 255, nullable = false)
+    @Column(nullable = false)
     private String name;
 
     @NotBlank
@@ -41,6 +41,4 @@ public class User {
     @NotNull
     @Column(nullable = false, length = 10)
     private String status = "INATIVO";
-
-
 }
