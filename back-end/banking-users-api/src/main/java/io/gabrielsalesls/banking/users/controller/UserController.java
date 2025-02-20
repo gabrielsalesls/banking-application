@@ -15,9 +15,6 @@ import java.util.List;
 @RequestMapping("api/users")
 public class UserController {
 
-    //TODO: Edit User
-    //TODO: Find by Email
-
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -40,6 +37,16 @@ public class UserController {
         return userService.findByCPF(cpf);
     }
 
+    @GetMapping
+    public UserDTO findByEmail(@RequestParam String email) {
+        return userService.findByEmail(email);
+    }
+
+    @GetMapping
+    public UserDTO findById(@RequestParam Long id) {
+        return userService.findById(id);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") @NotNull @Positive Long id) {
@@ -48,7 +55,7 @@ public class UserController {
 
     @PatchMapping("/{id}")
     public UserDTO update(@PathVariable @Positive @NotNull Long id,
-                          @RequestBody @Valid UserEditRequestDTO userEditRequestDTO){
+                          @RequestBody @Valid UserEditRequestDTO userEditRequestDTO) {
         return userService.edit(id, userEditRequestDTO);
     }
 }

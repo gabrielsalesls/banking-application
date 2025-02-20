@@ -27,15 +27,24 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public UserDTO findByCPF(@Valid @NotNull @CPF String cpf) {
-        return userMapper.toDTO(userRepository.findByCpf(cpf));
-    }
-
     public List<UserDTO> findAll() {
         return userRepository.findAll()
                 .stream()
                 .map(userMapper::toDTO)
                 .toList();
+    }
+
+    public UserDTO findByCPF(@Valid @NotNull @CPF String cpf) {
+        return userMapper.toDTO(userRepository.findByCpf(cpf));
+    }
+
+    public UserDTO findByEmail(String email) {
+        return userMapper.toDTO(userRepository.findByEmail(email));
+    }
+
+    public UserDTO findById(Long id) {
+        return userRepository.findById(id).map(userMapper::toDTO)
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     public UserDTO save(@Valid @NotNull UserDTO userDto) {
