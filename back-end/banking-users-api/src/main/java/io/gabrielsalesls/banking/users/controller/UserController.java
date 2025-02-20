@@ -7,18 +7,24 @@ import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/users")
 public class UserController {
 
     //TODO: Edit User
-    //TODO: Soft Delete User
     //TODO: Find by Email
 
     private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/")
+    public List<UserDTO> findAll() {
+        return userService.findAll();
     }
 
     @PostMapping
