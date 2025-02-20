@@ -21,7 +21,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<UserDTO> findAll() {
         return userService.findAll();
     }
@@ -32,18 +32,18 @@ public class UserController {
         return userService.save(userDTO);
     }
 
-    @GetMapping
+    @GetMapping("/searchByCpf")
     public UserDTO findByCpf(@RequestParam String cpf) {
         return userService.findByCPF(cpf);
     }
 
-    @GetMapping
+    @GetMapping("/searchByEmail")
     public UserDTO findByEmail(@RequestParam String email) {
         return userService.findByEmail(email);
     }
 
-    @GetMapping
-    public UserDTO findById(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    public UserDTO findById(@PathVariable Long id) {
         return userService.findById(id);
     }
 
