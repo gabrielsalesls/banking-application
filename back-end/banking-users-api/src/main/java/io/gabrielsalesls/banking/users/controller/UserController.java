@@ -1,7 +1,9 @@
 package io.gabrielsalesls.banking.users.controller;
 
 import io.gabrielsalesls.banking.users.dto.UserDTO;
+import io.gabrielsalesls.banking.users.dto.UserEditRequestDTO;
 import io.gabrielsalesls.banking.users.service.UserService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
@@ -42,5 +44,11 @@ public class UserController {
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") @NotNull @Positive Long id) {
         userService.delete(id);
+    }
+
+    @PatchMapping("/{id}")
+    public UserDTO update(@PathVariable @Positive @NotNull Long id,
+                          @RequestBody @Valid UserEditRequestDTO userEditRequestDTO){
+        return userService.edit(id, userEditRequestDTO);
     }
 }
