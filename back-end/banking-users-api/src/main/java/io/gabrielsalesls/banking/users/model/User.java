@@ -5,14 +5,16 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.validation.annotation.Validated;
 
-@Validated
 @Entity
 @Data
-@Table(name = "banking_user")
+@Table(name = "table_user")
+@SQLDelete(sql = "UPDATE table_user SET status = 'Inativo' WHERE id=?")
+@SQLRestriction("status <> 'Inativo'")
 public class User {
 
     @Id
@@ -27,18 +29,18 @@ public class User {
 
     @NotBlank
     @NotNull
-    @Column(unique=true)
+    @Column(unique = true)
     @CPF
     private String cpf;
 
     @NotBlank
     @NotNull
     @Email(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
-    @Column(unique=true)
+    @Column(unique = true)
     private String email;
 
     //TODO: Trocar para ENUM
     @NotNull
     @Column(nullable = false, length = 10)
-    private String status = "INATIVO";
+    private String status = "Ativo";
 }
